@@ -16,5 +16,15 @@ namespace QuanLyKhachSan.Presentation
         {
             InitializeComponent();
         }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelChart_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
