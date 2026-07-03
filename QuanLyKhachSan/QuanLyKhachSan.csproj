@@ -97,8 +97,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Presentation\FormBaoCao.resx">
+      <DependentUpon>FormBaoCao.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presentation\FormDangNhap.resx">
       <DependentUpon>FormDangNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\FormPhieuThue.resx">
+      <DependentUpon>FormPhieuThue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\FormTrangChu.resx">
       <DependentUpon>FormTrangChu.cs</DependentUpon>
