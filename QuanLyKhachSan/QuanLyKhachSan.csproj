@@ -12,6 +12,9 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,22 +48,11 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.Data.Sqlite">
-      <HintPath>$(UserProfile)\.nuget\packages\microsoft.data.sqlite.core\7.0.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Memory">
-      <HintPath>$(UserProfile)\.nuget\packages\system.memory\4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.core">
-      <HintPath>$(UserProfile)\.nuget\packages\sqlitepclraw.core\2.1.2\lib\netstandard2.0\SQLitePCLRaw.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>$(UserProfile)\.nuget\packages\sqlitepclraw.bundle_e_sqlite3\2.1.2\lib\netstandard2.0\SQLitePCLRaw.batteries_v2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.2" />
+    <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\KetNoiCSDL.cs" />
@@ -163,7 +155,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <Import Project="$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.props" Condition="Exists('$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.targets" Condition="Exists('$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+  </Target>
 </Project>
