@@ -1,7 +1,7 @@
 using System.Data;
 using Microsoft.Data.Sqlite;
 using QuanLyKhachSan.Entity;
-
+//
 namespace QuanLyKhachSan.DAL
 {
     public class NhanVienDAL
