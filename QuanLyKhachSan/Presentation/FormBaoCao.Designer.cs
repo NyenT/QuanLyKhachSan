@@ -116,6 +116,7 @@
             this.button1.TabIndex = 5;
             this.button1.Text = "Xuất Excel";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -126,6 +127,7 @@
             this.button2.TabIndex = 6;
             this.button2.Text = "Xem báo cáo";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // chart1
             // 
@@ -171,7 +173,7 @@
             // 
             // Column1
             // 
-            this.Column1.HeaderText = "Nhân viên";
+            this.Column1.HeaderText = "Phòng";
             this.Column1.MinimumWidth = 6;
             this.Column1.Name = "Column1";
             // 
@@ -204,7 +206,8 @@
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormBaoCao";
-            this.Text = "FormBaoCao";
+            this.Text = "Báo cáo doanh thu";
+            this.Load += new System.EventHandler(this.FormBaoCao_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();

@@ -1,5 +1,5 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+using System.Data;
+using Microsoft.Data.Sqlite;
 using QuanLyKhachSan.Entity;
 
 namespace QuanLyKhachSan.DAL
@@ -19,11 +19,11 @@ namespace QuanLyKhachSan.DAL
             string sql = "INSERT INTO NhanVien (MaNV, HoTen, ChucVu, SoDienThoai, DiaChi) " +
                          "VALUES (@MaNV, @HoTen, @ChucVu, @SoDienThoai, @DiaChi)";
             return db.ThucThiLenh(sql,
-                new SqlParameter("@MaNV", nv.MaNV),
-                new SqlParameter("@HoTen", nv.HoTen),
-                new SqlParameter("@ChucVu", nv.ChucVu),
-                new SqlParameter("@SoDienThoai", nv.SoDienThoai),
-                new SqlParameter("@DiaChi", nv.DiaChi));
+                new SqliteParameter("@MaNV", nv.MaNV),
+                new SqliteParameter("@HoTen", nv.HoTen),
+                new SqliteParameter("@ChucVu", nv.ChucVu),
+                new SqliteParameter("@SoDienThoai", nv.SoDienThoai),
+                new SqliteParameter("@DiaChi", nv.DiaChi));
         }
 
         public bool SuaNhanVien(NhanVien nv)
@@ -31,17 +31,18 @@ namespace QuanLyKhachSan.DAL
             string sql = "UPDATE NhanVien SET HoTen=@HoTen, ChucVu=@ChucVu, SoDienThoai=@SoDienThoai, DiaChi=@DiaChi " +
                          "WHERE MaNV=@MaNV";
             return db.ThucThiLenh(sql,
-                new SqlParameter("@MaNV", nv.MaNV),
-                new SqlParameter("@HoTen", nv.HoTen),
-                new SqlParameter("@ChucVu", nv.ChucVu),
-                new SqlParameter("@SoDienThoai", nv.SoDienThoai),
-                new SqlParameter("@DiaChi", nv.DiaChi));
+                new SqliteParameter("@MaNV", nv.MaNV),
+                new SqliteParameter("@HoTen", nv.HoTen),
+                new SqliteParameter("@ChucVu", nv.ChucVu),
+                new SqliteParameter("@SoDienThoai", nv.SoDienThoai),
+                new SqliteParameter("@DiaChi", nv.DiaChi));
         }
 
         public bool XoaNhanVien(string maNV)
         {
             string sql = "DELETE FROM NhanVien WHERE MaNV=@MaNV";
-            return db.ThucThiLenh(sql, new SqlParameter("@MaNV", maNV));
+            return db.ThucThiLenh(sql, new SqliteParameter("@MaNV", maNV));
         }
     }
 }
+

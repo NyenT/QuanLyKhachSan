@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QuanLyKhachSan.Presentation;
 
 namespace QuanLyKhachSan
 {
@@ -16,7 +17,11 @@ namespace QuanLyKhachSan
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.ThreadException += (sender, e) =>
+            {
+                MessageBox.Show("Đã xảy ra lỗi không mong muốn:\n" + e.Exception.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+            Application.Run(new FormDangNhap());
         }
     }
 }

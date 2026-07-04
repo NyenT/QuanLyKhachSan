@@ -1,5 +1,5 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+using System.Data;
+using Microsoft.Data.Sqlite;
 using QuanLyKhachSan.Entity;
 
 namespace QuanLyKhachSan.DAL
@@ -16,8 +16,8 @@ namespace QuanLyKhachSan.DAL
         {
             string sql = "SELECT * FROM TaiKhoan WHERE TenDangNhap=@TenDangNhap AND MatKhau=@MatKhau";
             DataTable dt = db.LayDuLieu(sql,
-                new SqlParameter("@TenDangNhap", tenDangNhap),
-                new SqlParameter("@MatKhau", matKhau));
+                new SqliteParameter("@TenDangNhap", tenDangNhap),
+                new SqliteParameter("@MatKhau", matKhau));
 
             if (dt.Rows.Count == 0) return null;
 
@@ -40,24 +40,25 @@ namespace QuanLyKhachSan.DAL
             string sql = "INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) " +
                          "VALUES (@TenDangNhap, @MatKhau, @VaiTro, @MaNV)";
             return db.ThucThiLenh(sql,
-                new SqlParameter("@TenDangNhap", tk.TenDangNhap),
-                new SqlParameter("@MatKhau", tk.MatKhau),
-                new SqlParameter("@VaiTro", tk.VaiTro),
-                new SqlParameter("@MaNV", tk.MaNV));
+                new SqliteParameter("@TenDangNhap", tk.TenDangNhap),
+                new SqliteParameter("@MatKhau", tk.MatKhau),
+                new SqliteParameter("@VaiTro", tk.VaiTro),
+                new SqliteParameter("@MaNV", tk.MaNV));
         }
 
         public bool DoiMatKhau(string tenDangNhap, string matKhauMoi)
         {
             string sql = "UPDATE TaiKhoan SET MatKhau=@MatKhau WHERE TenDangNhap=@TenDangNhap";
             return db.ThucThiLenh(sql,
-                new SqlParameter("@MatKhau", matKhauMoi),
-                new SqlParameter("@TenDangNhap", tenDangNhap));
+                new SqliteParameter("@MatKhau", matKhauMoi),
+                new SqliteParameter("@TenDangNhap", tenDangNhap));
         }
 
         public bool XoaTaiKhoan(string tenDangNhap)
         {
             string sql = "DELETE FROM TaiKhoan WHERE TenDangNhap=@TenDangNhap";
-            return db.ThucThiLenh(sql, new SqlParameter("@TenDangNhap", tenDangNhap));
+            return db.ThucThiLenh(sql, new SqliteParameter("@TenDangNhap", tenDangNhap));
         }
     }
 }
+

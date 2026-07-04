@@ -1,5 +1,5 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+using System.Data;
+using Microsoft.Data.Sqlite;
 using QuanLyKhachSan.Entity;
 
 namespace QuanLyKhachSan.DAL
@@ -16,7 +16,7 @@ namespace QuanLyKhachSan.DAL
 
         public DataTable LayDanhSachPhongTrong()
         {
-            string sql = "SELECT * FROM Phong WHERE TinhTrang = N'Trống'";
+            string sql = "SELECT * FROM Phong WHERE TinhTrang = 'Trống'";
             return db.LayDuLieu(sql);
         }
 
@@ -25,11 +25,11 @@ namespace QuanLyKhachSan.DAL
             string sql = "INSERT INTO Phong (MaPhong, TenPhong, LoaiPhong, Gia, TinhTrang) " +
                          "VALUES (@MaPhong, @TenPhong, @LoaiPhong, @Gia, @TinhTrang)";
             return db.ThucThiLenh(sql,
-                new SqlParameter("@MaPhong", p.MaPhong),
-                new SqlParameter("@TenPhong", p.TenPhong),
-                new SqlParameter("@LoaiPhong", p.LoaiPhong),
-                new SqlParameter("@Gia", p.Gia),
-                new SqlParameter("@TinhTrang", p.TinhTrang));
+                new SqliteParameter("@MaPhong", p.MaPhong),
+                new SqliteParameter("@TenPhong", p.TenPhong),
+                new SqliteParameter("@LoaiPhong", p.LoaiPhong),
+                new SqliteParameter("@Gia", p.Gia),
+                new SqliteParameter("@TinhTrang", p.TinhTrang));
         }
 
         public bool SuaPhong(Phong p)
@@ -37,25 +37,26 @@ namespace QuanLyKhachSan.DAL
             string sql = "UPDATE Phong SET TenPhong=@TenPhong, LoaiPhong=@LoaiPhong, Gia=@Gia, TinhTrang=@TinhTrang " +
                          "WHERE MaPhong=@MaPhong";
             return db.ThucThiLenh(sql,
-                new SqlParameter("@MaPhong", p.MaPhong),
-                new SqlParameter("@TenPhong", p.TenPhong),
-                new SqlParameter("@LoaiPhong", p.LoaiPhong),
-                new SqlParameter("@Gia", p.Gia),
-                new SqlParameter("@TinhTrang", p.TinhTrang));
+                new SqliteParameter("@MaPhong", p.MaPhong),
+                new SqliteParameter("@TenPhong", p.TenPhong),
+                new SqliteParameter("@LoaiPhong", p.LoaiPhong),
+                new SqliteParameter("@Gia", p.Gia),
+                new SqliteParameter("@TinhTrang", p.TinhTrang));
         }
 
         public bool CapNhatTinhTrangPhong(string maPhong, string tinhTrang)
         {
             string sql = "UPDATE Phong SET TinhTrang=@TinhTrang WHERE MaPhong=@MaPhong";
             return db.ThucThiLenh(sql,
-                new SqlParameter("@TinhTrang", tinhTrang),
-                new SqlParameter("@MaPhong", maPhong));
+                new SqliteParameter("@TinhTrang", tinhTrang),
+                new SqliteParameter("@MaPhong", maPhong));
         }
 
         public bool XoaPhong(string maPhong)
         {
             string sql = "DELETE FROM Phong WHERE MaPhong=@MaPhong";
-            return db.ThucThiLenh(sql, new SqlParameter("@MaPhong", maPhong));
+            return db.ThucThiLenh(sql, new SqliteParameter("@MaPhong", maPhong));
         }
     }
 }
+

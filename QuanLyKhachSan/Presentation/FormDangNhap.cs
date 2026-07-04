@@ -1,30 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using QuanLyKhachSan.DAL;
+using QuanLyKhachSan.Entity;
 
 namespace QuanLyKhachSan.Presentation
 {
     public partial class FormDangNhap : Form
     {
+        private readonly TaiKhoanDAL taiKhoanDAL = new TaiKhoanDAL();
+
         public FormDangNhap()
         {
             InitializeComponent();
+            this.AcceptButton = btnDangNhap;
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
+
         private void lblTitle_Click(object sender, EventArgs e)
         {
-
         }
 
         private void btnDangNhap_Click_1(object sender, EventArgs e)
@@ -34,32 +30,49 @@ namespace QuanLyKhachSan.Presentation
 
             if (string.IsNullOrEmpty(tk) || string.IsNullOrEmpty(mk))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
+                MessageBox.Show("Vui lòng nhập đầy đủ tài khoản và mật khẩu!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            string query = "SELECT COUNT(*) FROM NguoiDung WHERE TenDangNhap = @tk AND MatKhau = @mk";
 
-            using (OleDbConnection conn = KetNoi.GetConnection())
+            try
             {
-                OleDbCommand cmd = new OleDbCommand(query, conn);
-                cmd.Parameters.AddWithValue("@tk", tk);
-                cmd.Parameters.AddWithValue("@mk", mk);
+                btnDangNhap.Enabled = false;
+                TaiKhoan taiKhoan = taiKhoanDAL.DangNhap(tk, mk);
 
-                conn.Open();
-                int count = (int)cmd.ExecuteScalar();
-
-                if (count > 0)
+                if (taiKhoan != null)
                 {
-                    MessageBox.Show("Đăng nhập thành công!");
+                    txtUsername.Clear();
+                    txtPassword.Clear();
                     this.Hide();
-                    FormTrangChu chinh = new FormTrangChu();
-                    chinh.ShowDialog();
-                    this.Close();
+
+                    using (FormTrangChu formTrangChu = new FormTrangChu(taiKhoan))
+                    {
+                        formTrangChu.ShowDialog();
+                    }
+
+                    // Sau khi đăng xuất khỏi Trang chủ, hiển thị lại màn hình đăng nhập
+                    // để có thể đăng nhập tài khoản khác. Ứng dụng chỉ thực sự đóng khi
+                    // người dùng đóng cửa sổ đăng nhập này.
+                    this.Show();
+                    txtUsername.Focus();
                 }
                 else
                 {
-                    MessageBox.Show("Sai tài khoản hoặc mật khẩu!");
+                    MessageBox.Show("Sai tài khoản hoặc mật khẩu!", "Đăng nhập thất bại",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtPassword.Clear();
+                    txtPassword.Focus();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi kết nối cơ sở dữ liệu",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnDangNhap.Enabled = true;
             }
         }
     }

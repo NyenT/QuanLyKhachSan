@@ -160,6 +160,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(404, 27);
             this.dateTimePicker1.TabIndex = 7;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.NgayThayDoi);
             // 
             // dateTimePicker2
             // 
@@ -169,6 +170,7 @@
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(404, 27);
             this.dateTimePicker2.TabIndex = 8;
+            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.NgayThayDoi);
             // 
             // dataGridView1
             // 
@@ -258,6 +260,7 @@
             this.button2.TabIndex = 12;
             this.button2.Text = "Lưu phiếu";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // FormPhieuThue
             // 
@@ -283,7 +286,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormPhieuThue";
-            this.Text = "Form1";
+            this.Text = "Lập phiếu thuê phòng";
+            this.Load += new System.EventHandler(this.FormPhieuThue_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

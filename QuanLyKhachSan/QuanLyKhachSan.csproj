@@ -45,6 +45,22 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.Data.Sqlite">
+      <HintPath>$(UserProfile)\.nuget\packages\microsoft.data.sqlite.core\7.0.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>$(UserProfile)\.nuget\packages\system.memory\4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>$(UserProfile)\.nuget\packages\sqlitepclraw.core\2.1.2\lib\netstandard2.0\SQLitePCLRaw.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>$(UserProfile)\.nuget\packages\sqlitepclraw.bundle_e_sqlite3\2.1.2\lib\netstandard2.0\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\KetNoiCSDL.cs" />
@@ -83,6 +99,12 @@
     <Compile Include="Presentation\FormKhachHang.Designer.cs">
       <DependentUpon>FormKhachHang.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\FormNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\FormNhanVien.Designer.cs">
+      <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\FormTrangChu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +121,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Presentation\FormBaoCao.resx">
       <DependentUpon>FormBaoCao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\FormKhachHang.resx">
+      <DependentUpon>FormKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\FormNhanVien.resx">
+      <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\FormPhong.resx">
+      <DependentUpon>FormPhong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presentation\FormDangNhap.resx">
       <DependentUpon>FormDangNhap.cs</DependentUpon>
@@ -132,5 +163,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
+  <Import Project="$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.props" Condition="Exists('$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.targets" Condition="Exists('$(MSBuildProjectDirectory)\obj\QuanLyKhachSan.csproj.nuget.g.targets')" />
 </Project>
