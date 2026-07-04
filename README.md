@@ -17,12 +17,12 @@
 - Windows 10/11 (hoặc Windows 7+ có .NET Framework 4.7.2).
 - Visual Studio 2022 (khuyến nghị) hoặc Visual Studio 2019 16.8+.
 - .NET Framework 4.7.2 SDK (thường đã có sẵn khi cài Visual Studio).
-- Không cần cài đặt SQLite riêng — thư viện `Microsoft.Data.Sqlite` đã được đóng gói kèm ứng dụng.
+- Không cần cài đặt SQLite riêng — thư viện `System.Data.SQLite` đã được đóng gói kèm ứng dụng (gồm cả native interop DLL x86/x64).
 
 ## Cách build & chạy
 
-1. Mở file `QuanLyKhachSan.slnx` bằng Visual Studio 2022.
-   - Nếu dùng Visual Studio 2019, mở `QuanLyKhachSan/QuanLyKhachSan.csproj` trực tiếp.
+1. Mở file `QuanLyKhachSan.sln` (hoặc `QuanLyKhachSan.slnx` nếu dùng VS 2022 17.10+) bằng Visual Studio.
+   - Có thể mở trực tiếp `QuanLyKhachSan/QuanLyKhachSan.csproj` nếu muốn.
 2. Chuột phải project → **Restore NuGet Packages** (Visual Studio thường tự restore khi mở).
 3. Nhấn `F5` (Debug) hoặc `Ctrl+F5` (Run without debugging).
 
@@ -72,7 +72,7 @@ QuanLyKhachSan/
 
 ## Cơ sở dữ liệu SQLite
 
-- **Engine**: SQLite (nhúng, không cần server) qua gói `Microsoft.Data.Sqlite.Core` 7.0.0 và `SQLitePCLRaw.bundle_e_sqlite3` 2.1.2.
+- **Engine**: SQLite (nhúng, không cần server) qua gói `System.Data.SQLite.Core` 1.0.118 (gồm cả native interop DLL).
 - **Vị trí file DB**:
   - Khi chạy Debug trong Visual Studio: `QuanLyKhachSan/QuanLyKhachSan.db` (thư mục project).
   - Khi chạy trực tiếp `.exe`: cùng thư mục với `QuanLyKhachSan.exe`.
@@ -124,6 +124,6 @@ CREATE TABLE PhieuThue (
 
 ## Ghi chú
 
-- Mọi câu lệnh SQL đều dùng tham số hoá (`SqliteParameter`) để chống SQL Injection.
+- Mọi câu lệnh SQL đều dùng tham số hoá (`SQLiteParameter`) để chống SQL Injection.
 - Lớp `KetNoiCSDL` tự khởi tạo DB và bảng khi chưa tồn tại, nên người dùng cuối không cần thao tác gì với SQLite.
 - Giao diện WinForms không nên chỉnh sửa thủ công trong file `.Designer.cs` — luôn mở bằng Visual Studio Designer (kéo thả).

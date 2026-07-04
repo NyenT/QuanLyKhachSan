@@ -15,8 +15,8 @@ namespace QuanLyKhachSan
         [STAThread]
         static void Main()
         {
-            // Microsoft.Data.Sqlite 7.0 tự động khởi tạo SQLitePCLRaw batteries
-            // khi dùng SQLitePCLRaw.bundle_e_sqlite3, nên không cần gọi Init() thủ công.
+            // System.Data.SQLite tự nạp DLL interop khi mở connection,
+            // không cần khởi tạo batteries thủ công.
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

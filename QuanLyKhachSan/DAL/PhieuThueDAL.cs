@@ -1,6 +1,6 @@
 using System;
 using System.Data;
-using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
 using QuanLyKhachSan.Entity;
 
 namespace QuanLyKhachSan.DAL
@@ -22,8 +22,8 @@ namespace QuanLyKhachSan.DAL
         {
             string sql = "SELECT * FROM PhieuThue WHERE datetime(NgayCheckIn) >= datetime(@tuNgay) AND datetime(NgayCheckIn) <= datetime(@denNgay) ORDER BY NgayCheckIn";
             return db.LayDuLieu(sql,
-                new SqliteParameter("@tuNgay", tuNgay),
-                new SqliteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
+                new SQLiteParameter("@tuNgay", tuNgay),
+                new SQLiteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
         }
 
         /// <summary>Doanh thu + số phiếu gộp theo từng phòng trong khoảng thời gian (dùng cho FormBaoCao).</summary>
@@ -35,8 +35,8 @@ namespace QuanLyKhachSan.DAL
                            GROUP BY MaPhong
                            ORDER BY MaPhong";
             return db.LayDuLieu(sql,
-                new SqliteParameter("@tuNgay", tuNgay),
-                new SqliteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
+                new SQLiteParameter("@tuNgay", tuNgay),
+                new SQLiteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
         }
 
         /// <summary>Doanh thu gộp theo từng ngày check-in trong khoảng thời gian (dùng để vẽ biểu đồ).</summary>
@@ -48,8 +48,8 @@ namespace QuanLyKhachSan.DAL
                            GROUP BY date(NgayCheckIn)
                            ORDER BY date(NgayCheckIn)";
             return db.LayDuLieu(sql,
-                new SqliteParameter("@tuNgay", tuNgay),
-                new SqliteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
+                new SQLiteParameter("@tuNgay", tuNgay),
+                new SQLiteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
         }
 
         /// <summary>Tổng doanh thu trong khoảng thời gian (dùng cho dashboard trang chủ).</summary>
@@ -57,8 +57,8 @@ namespace QuanLyKhachSan.DAL
         {
             string sql = "SELECT IFNULL(SUM(TongTien), 0) FROM PhieuThue WHERE datetime(NgayCheckIn) >= datetime(@tuNgay) AND datetime(NgayCheckIn) <= datetime(@denNgay)";
             object ketQua = db.LayGiaTriDon(sql,
-                new SqliteParameter("@tuNgay", tuNgay),
-                new SqliteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
+                new SQLiteParameter("@tuNgay", tuNgay),
+                new SQLiteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
             return (ketQua == null || ketQua == DBNull.Value) ? 0 : Convert.ToDecimal(ketQua);
         }
 
@@ -67,8 +67,8 @@ namespace QuanLyKhachSan.DAL
         {
             string sql = "SELECT COUNT(*) FROM PhieuThue WHERE datetime(NgayCheckIn) >= datetime(@tuNgay) AND datetime(NgayCheckIn) <= datetime(@denNgay)";
             object ketQua = db.LayGiaTriDon(sql,
-                new SqliteParameter("@tuNgay", tuNgay),
-                new SqliteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
+                new SQLiteParameter("@tuNgay", tuNgay),
+                new SQLiteParameter("@denNgay", denNgay.Date.AddDays(1).AddSeconds(-1)));
             return (ketQua == null || ketQua == DBNull.Value) ? 0 : Convert.ToInt32(ketQua);
         }
 
@@ -78,12 +78,12 @@ namespace QuanLyKhachSan.DAL
             string sql = "INSERT INTO PhieuThue (MaPhieu, MaPhong, MaKH, NgayCheckIn, NgayCheckOut, TongTien) " +
                          "VALUES (@MaPhieu, @MaPhong, @MaKH, @NgayCheckIn, @NgayCheckOut, @TongTien)";
             return db.ThucThiLenh(sql,
-                new SqliteParameter("@MaPhieu", pt.MaPhieu),
-                new SqliteParameter("@MaPhong", pt.MaPhong),
-                new SqliteParameter("@MaKH", pt.MaKH),
-                new SqliteParameter("@NgayCheckIn", pt.NgayCheckIn),
-                new SqliteParameter("@NgayCheckOut", pt.NgayCheckOut),
-                new SqliteParameter("@TongTien", pt.TongTien));
+                new SQLiteParameter("@MaPhieu", pt.MaPhieu),
+                new SQLiteParameter("@MaPhong", pt.MaPhong),
+                new SQLiteParameter("@MaKH", pt.MaKH),
+                new SQLiteParameter("@NgayCheckIn", pt.NgayCheckIn),
+                new SQLiteParameter("@NgayCheckOut", pt.NgayCheckOut),
+                new SQLiteParameter("@TongTien", pt.TongTien));
         }
 
         /// <summary>Cập nhật thông tin một phiếu thuê đã có.</summary>
@@ -92,19 +92,19 @@ namespace QuanLyKhachSan.DAL
             string sql = "UPDATE PhieuThue SET MaPhong=@MaPhong, MaKH=@MaKH, NgayCheckIn=@NgayCheckIn, " +
                          "NgayCheckOut=@NgayCheckOut, TongTien=@TongTien WHERE MaPhieu=@MaPhieu";
             return db.ThucThiLenh(sql,
-                new SqliteParameter("@MaPhieu", pt.MaPhieu),
-                new SqliteParameter("@MaPhong", pt.MaPhong),
-                new SqliteParameter("@MaKH", pt.MaKH),
-                new SqliteParameter("@NgayCheckIn", pt.NgayCheckIn),
-                new SqliteParameter("@NgayCheckOut", pt.NgayCheckOut),
-                new SqliteParameter("@TongTien", pt.TongTien));
+                new SQLiteParameter("@MaPhieu", pt.MaPhieu),
+                new SQLiteParameter("@MaPhong", pt.MaPhong),
+                new SQLiteParameter("@MaKH", pt.MaKH),
+                new SQLiteParameter("@NgayCheckIn", pt.NgayCheckIn),
+                new SQLiteParameter("@NgayCheckOut", pt.NgayCheckOut),
+                new SQLiteParameter("@TongTien", pt.TongTien));
         }
 
         /// <summary>Xoá một phiếu thuê theo mã phiếu.</summary>
         public bool XoaPhieuThue(string maPhieu)
         {
             string sql = "DELETE FROM PhieuThue WHERE MaPhieu=@MaPhieu";
-            return db.ThucThiLenh(sql, new SqliteParameter("@MaPhieu", maPhieu));
+            return db.ThucThiLenh(sql, new SQLiteParameter("@MaPhieu", maPhieu));
         }
     }
 }

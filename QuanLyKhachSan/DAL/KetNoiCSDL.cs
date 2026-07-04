@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Data.SQLite;
 using System.IO;
-using Microsoft.Data.Sqlite;
 
 namespace QuanLyKhachSan.DAL
 {
@@ -31,7 +31,7 @@ namespace QuanLyKhachSan.DAL
                 dbFile = projectDbFile;
             }
 
-            connectionString = $"Data Source={dbFile};Cache=Shared";
+            connectionString = $"Data Source={dbFile};Version=3;Cache=Shared;";
 
             // Đảm bảo file CSDL và bảng tồn tại trước khi dùng.
             KhoiTaoCSDLNeuChuaCo();
@@ -40,9 +40,9 @@ namespace QuanLyKhachSan.DAL
         /// <summary>Trả về đường dẫn file SQLite đang dùng (debug / thông báo lỗi).</summary>
         public string DuongDanFile => dbFile;
 
-        private SqliteConnection MoKetNoi()
+        private SQLiteConnection MoKetNoi()
         {
-            SqliteConnection conn = new SqliteConnection(connectionString);
+            SQLiteConnection conn = new SQLiteConnection(connectionString);
             try
             {
                 conn.Open();
@@ -62,7 +62,7 @@ namespace QuanLyKhachSan.DAL
                 // Directory.CreateDirectory trả về nguyên đối tượng nếu đã tồn tại, không sinh lỗi.
                 Directory.CreateDirectory(Path.GetDirectoryName(dbFile));
 
-                using (SqliteConnection conn = new SqliteConnection(connectionString))
+                using (SQLiteConnection conn = new SQLiteConnection(connectionString))
                 {
                     conn.Open();
 
@@ -107,14 +107,14 @@ CREATE TABLE IF NOT EXISTS PhieuThue (
     TongTien     REAL NOT NULL
 );
 ";
-                    using (SqliteCommand cmd = conn.CreateCommand())
+                    using (SQLiteCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = schema;
                         cmd.ExecuteNonQuery();
                     }
 
                     // Chèn dữ liệu mẫu (chỉ khi bảng Phong còn rỗng để tránh trùng khoá).
-                    using (SqliteCommand checkCmd = conn.CreateCommand())
+                    using (SQLiteCommand checkCmd = conn.CreateCommand())
                     {
                         checkCmd.CommandText = "SELECT COUNT(*) FROM Phong";
                         object ketQua = checkCmd.ExecuteScalar();
@@ -128,13 +128,13 @@ CREATE TABLE IF NOT EXISTS PhieuThue (
             }
             catch (Exception)
             {
-                // Bỏ qua lỗi khởi tạo khi dựngDAL tạm (VD: designer mode).
+                // Bỏ qua lỗi khởi tạo khi dựng DAL tạm (VD: designer mode).
                 // Khi chạy thực tế, lỗi sẽ được ném lại qua MoKetNoi.
             }
         }
 
         /// <summary>Chèn các dòng dữ liệu mẫu cho bảng Phong, NhanVien và TaiKhoan.</summary>
-        private void ChenDuLieuMau(SqliteConnection conn)
+        private void ChenDuLieuMau(SQLiteConnection conn)
         {
             string seed = @"
 INSERT INTO Phong (MaPhong, TenPhong, LoaiPhong, Gia, TinhTrang) VALUES ('P101', 'Phòng 101', 'Standard', 300000, 'Trống');
@@ -149,7 +149,7 @@ INSERT INTO NhanVien (MaNV, HoTen, ChucVu, SoDienThoai, DiaChi) VALUES ('NV02', 
 INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('admin',    '123', 'Admin',     'NV01');
 INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('nhanvien', '123', 'NhanVien',  'NV02');
 ";
-            using (SqliteCommand cmd = conn.CreateCommand())
+            using (SQLiteCommand cmd = conn.CreateCommand())
             {
                 cmd.CommandText = seed;
                 cmd.ExecuteNonQuery();
@@ -162,7 +162,7 @@ INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('nhanvien', '1
             thongBaoLoi = string.Empty;
             try
             {
-                using (SqliteConnection conn = MoKetNoi())
+                using (SQLiteConnection conn = MoKetNoi())
                 {
                     return conn.State == ConnectionState.Open;
                 }
@@ -178,11 +178,11 @@ INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('nhanvien', '1
         public DataTable LayDuLieu(string sql)
         {
             DataTable dt = new DataTable();
-            using (SqliteConnection conn = MoKetNoi())
-            using (SqliteCommand cmd = conn.CreateCommand())
+            using (SQLiteConnection conn = MoKetNoi())
+            using (SQLiteCommand cmd = conn.CreateCommand())
             {
                 cmd.CommandText = sql;
-                using (SqliteDataReader reader = cmd.ExecuteReader())
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
                     dt.Load(reader);
                 }
@@ -191,18 +191,18 @@ INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('nhanvien', '1
         }
 
         /// <summary>Thực thi SELECT có tham số (an toàn hơn, chống SQL Injection).</summary>
-        public DataTable LayDuLieu(string sql, params SqliteParameter[] parameters)
+        public DataTable LayDuLieu(string sql, params SQLiteParameter[] parameters)
         {
             DataTable dt = new DataTable();
-            using (SqliteConnection conn = MoKetNoi())
-            using (SqliteCommand cmd = conn.CreateCommand())
+            using (SQLiteConnection conn = MoKetNoi())
+            using (SQLiteCommand cmd = conn.CreateCommand())
             {
                 cmd.CommandText = sql;
                 if (parameters != null)
                 {
                     cmd.Parameters.AddRange(parameters);
                 }
-                using (SqliteDataReader reader = cmd.ExecuteReader())
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
                     dt.Load(reader);
                 }
@@ -213,8 +213,8 @@ INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('nhanvien', '1
         /// <summary>Thực thi INSERT/UPDATE/DELETE, trả về true nếu có ít nhất 1 dòng bị ảnh hưởng.</summary>
         public bool ThucThiLenh(string sql)
         {
-            using (SqliteConnection conn = MoKetNoi())
-            using (SqliteCommand cmd = conn.CreateCommand())
+            using (SQLiteConnection conn = MoKetNoi())
+            using (SQLiteCommand cmd = conn.CreateCommand())
             {
                 cmd.CommandText = sql;
                 return cmd.ExecuteNonQuery() > 0;
@@ -222,10 +222,10 @@ INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('nhanvien', '1
         }
 
         /// <summary>Thực thi INSERT/UPDATE/DELETE có tham số (an toàn hơn, khuyến khích dùng cho code mới).</summary>
-        public bool ThucThiLenh(string sql, params SqliteParameter[] parameters)
+        public bool ThucThiLenh(string sql, params SQLiteParameter[] parameters)
         {
-            using (SqliteConnection conn = MoKetNoi())
-            using (SqliteCommand cmd = conn.CreateCommand())
+            using (SQLiteConnection conn = MoKetNoi())
+            using (SQLiteCommand cmd = conn.CreateCommand())
             {
                 cmd.CommandText = sql;
                 if (parameters != null)
@@ -237,10 +237,10 @@ INSERT INTO TaiKhoan (TenDangNhap, MatKhau, VaiTro, MaNV) VALUES ('nhanvien', '1
         }
 
         /// <summary>Trả về giá trị đơn (VD: COUNT(*), SUM...).</summary>
-        public object LayGiaTriDon(string sql, params SqliteParameter[] parameters)
+        public object LayGiaTriDon(string sql, params SQLiteParameter[] parameters)
         {
-            using (SqliteConnection conn = MoKetNoi())
-            using (SqliteCommand cmd = conn.CreateCommand())
+            using (SQLiteConnection conn = MoKetNoi())
+            using (SQLiteCommand cmd = conn.CreateCommand())
             {
                 cmd.CommandText = sql;
                 if (parameters != null)
