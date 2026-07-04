@@ -1,12 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuanLyKhachSan.Entity
 {
-    internal class NhanVien
+    public class NhanVien
     {
+        public string MaNV { get; set; }
+        public string HoTen { get; set; }
+        public string ChucVu { get; set; }
+        public string SoDienThoai { get; set; }
+        public string DiaChi { get; set; }
+
+        public NhanVien() { }
+
+        public NhanVien(string maNV, string hoTen, string chucVu, string soDienThoai, string diaChi)
+        {
+            MaNV = maNV;
+            HoTen = hoTen;
+            ChucVu = chucVu;
+            SoDienThoai = soDienThoai;
+            DiaChi = diaChi;
+        }
     }
 }

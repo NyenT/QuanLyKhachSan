@@ -1,12 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
+using System.Data.SqlClient;
+using QuanLyKhachSan.Entity;
 
 namespace QuanLyKhachSan.DAL
 {
-    internal class PhongDAL
+    public class PhongDAL
     {
+        KetNoiCSDL db = new KetNoiCSDL();
+
+        public DataTable LayDanhSachPhong()
+        {
+            string sql = "SELECT * FROM Phong";
+            return db.LayDuLieu(sql);
+        }
+
+        public DataTable LayDanhSachPhongTrong()
+        {
+            string sql = "SELECT * FROM Phong WHERE TinhTrang = N'Trống'";
+            return db.LayDuLieu(sql);
+        }
+
+        public bool ThemPhong(Phong p)
+        {
+            string sql = "INSERT INTO Phong (MaPhong, TenPhong, LoaiPhong, Gia, TinhTrang) " +
+                         "VALUES (@MaPhong, @TenPhong, @LoaiPhong, @Gia, @TinhTrang)";
+            return db.ThucThiLenh(sql,
+                new SqlParameter("@MaPhong", p.MaPhong),
+                new SqlParameter("@TenPhong", p.TenPhong),
+                new SqlParameter("@LoaiPhong", p.LoaiPhong),
+                new SqlParameter("@Gia", p.Gia),
+                new SqlParameter("@TinhTrang", p.TinhTrang));
+        }
+
+        public bool SuaPhong(Phong p)
+        {
+            string sql = "UPDATE Phong SET TenPhong=@TenPhong, LoaiPhong=@LoaiPhong, Gia=@Gia, TinhTrang=@TinhTrang " +
+                         "WHERE MaPhong=@MaPhong";
+            return db.ThucThiLenh(sql,
+                new SqlParameter("@MaPhong", p.MaPhong),
+                new SqlParameter("@TenPhong", p.TenPhong),
+                new SqlParameter("@LoaiPhong", p.LoaiPhong),
+                new SqlParameter("@Gia", p.Gia),
+                new SqlParameter("@TinhTrang", p.TinhTrang));
+        }
+
+        public bool CapNhatTinhTrangPhong(string maPhong, string tinhTrang)
+        {
+            string sql = "UPDATE Phong SET TinhTrang=@TinhTrang WHERE MaPhong=@MaPhong";
+            return db.ThucThiLenh(sql,
+                new SqlParameter("@TinhTrang", tinhTrang),
+                new SqlParameter("@MaPhong", maPhong));
+        }
+
+        public bool XoaPhong(string maPhong)
+        {
+            string sql = "DELETE FROM Phong WHERE MaPhong=@MaPhong";
+            return db.ThucThiLenh(sql, new SqlParameter("@MaPhong", maPhong));
+        }
     }
 }

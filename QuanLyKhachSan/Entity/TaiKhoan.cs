@@ -1,12 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuanLyKhachSan.Entity
 {
-    internal class TaiKhoan
+    public class TaiKhoan
     {
+        public string TenDangNhap { get; set; }
+        public string MatKhau { get; set; }
+        public string VaiTro { get; set; } // "Admin", "NhanVien"...
+        public string MaNV { get; set; }   // Liên kết tới NhanVien (nếu có)
+
+        public TaiKhoan() { }
+
+        public TaiKhoan(string tenDangNhap, string matKhau, string vaiTro, string maNV)
+        {
+            TenDangNhap = tenDangNhap;
+            MatKhau = matKhau;
+            VaiTro = vaiTro;
+            MaNV = maNV;
+        }
     }
 }
