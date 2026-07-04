@@ -67,9 +67,9 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(330, 20);
+            this.label1.Size = new System.Drawing.Size(305, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "frmBaoCao — Báo cáo doanh thu & Thống kê";
+            this.label1.Text = "BaoCao — Báo cáo doanh thu & Thống kê";
             // 
             // label2
             // 
